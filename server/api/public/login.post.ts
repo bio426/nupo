@@ -14,31 +14,39 @@ export default eventHandler(async (event) => {
 		username: z.string(),
 		password: z.string(),
 	})
-	schema.parse(body)
+	try {
+		schema.parse(body)
+	} catch (err) {
+		throw createError({ statusCode: 400 })
+	}
 
 	const rows = await sql<
 		{ id: number; username: string; password: string }[]
 	>`select id,username,password from users where username = ${body.username}`
 	const row = rows[0]
 	if (row == undefined) {
-		throw createError({
-			message: "Incorrect username or password",
-			statusCode: 400,
-		})
+		throw createError({ statusCode: 400 })
 	}
 
 	const valid = await bcrypt.compare(body.password, row.password)
 	if (!valid) {
-		throw createError({
-			message: "Incorrect username or password",
-			statusCode: 400,
-		})
+		throw createError({ statusCode: 400 })
 	}
 
 	const tokenPayload: tAuth.User = {
 		id: row.id,
 		username: row.username,
 	}
-	const token = jwt.sign(tokenPayload, config.AUTH_JWT_SECRET)
-	setCookie(event, config.AUTH_COOKIE_NAME, token, { httpOnly: true })
+
+	const fiveMin = 1000 * 60 * 5
+	const token = jwt.sign(tokenPayload, config.authJwtSecret, {
+		// expiresIn: 60 * 5,
+	})
+	const expirationDate = new Date(Date.now() + fiveMin)
+	setCookie(event, config.authCookieName, token, {
+		httpOnly: true,
+		// expires: expirationDate,
+	})
+
+	return { id: row.id, username: row.username }
 })

@@ -1,6 +1,10 @@
 <script setup lang="ts">
-const auth = useAuth()
-auth.getUserFromCookie()
+// get user if cookie exist
+const authStore = useAuthStore()
+const userRes = await useFetch("/api/user")
+if (userRes.data.value != null) {
+	authStore.user = userRes.data.value
+}
 </script>
 
 <template>

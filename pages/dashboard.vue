@@ -1,17 +1,19 @@
 <script setup lang="ts">
 definePageMeta({ middleware: "auth-guard" })
 
-const auth = useAuth()
-
-const { data } = await useFetch("/api/user")
+const { data: wishlistProducts } = await useFetch("/api/wishlist")
 </script>
 
 <template>
 	<div class="w-11/12 mx-auto">
-		<h1 class="py-8 text-2xl font-bold text-center">Dashboard</h1>
-		<pre class="my-4">
-            {{ auth.user }}
-        </pre>
-		<div class="grid grid-cols-6 gap-4"></div>
+		<Header title="Dashboard" />
+		<h2 class="mb-4 text-xl underline">Wishlist Items</h2>
+		<div class="grid grid-cols-6 gap-4">
+			<ProductCardfalse
+				:product="product"
+				:wishlistButton="true"
+				v-for="product in wishlistProducts"
+			/>
+		</div>
 	</div>
 </template>

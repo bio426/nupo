@@ -1,24 +1,20 @@
-<script lang="ts" setup>
-const auth = useAuth()
+<script setup lang="ts">
+const authStore = useAuthStore()
 const toast = useToast()
 
-const form = reactive({
-	username: "",
-	password: "",
-})
+const form = reactive({ username: "", password: "" })
 
 async function login() {
-	const payload = {
-		username: form.username,
-		password: form.password,
-	}
+	const payload = { username: form.username, password: form.password }
 	try {
-		const res = await useFetch("/api/login", {
+		const res = await $fetch("/api/public/login", {
 			method: "POST",
 			body: payload,
+			credentials: "include",
 		})
+		authStore.user = res
 		await navigateTo("/dashboard")
-	} catch (error) {
+	} catch (err) {
 		form.username = ""
 		form.password = ""
 		toast.display({ message: "Error" })

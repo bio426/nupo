@@ -5,11 +5,11 @@ let sql: postgres.Sql
 export default defineNitroPlugin((nitroApp) => {
 	const config = useRuntimeConfig()
 	sql = postgres({
-		host: config.PG_HOST,
-		port: 5432,
-		user: "postgres",
-		password: "password",
-		database: "nupo",
+		host: config.pgHost,
+		port: Number(config.pgPort),
+		user: config.pgUser,
+		password: config.pgPassword,
+		database: config.pgDatabase,
 	})
 })
 

@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt"
 import { z } from "zod"
 
-import { sql } from "../plugins/database"
+import { sql } from "~/server/plugins/database"
 
 export default eventHandler(async (event) => {
 	const body = await readBody<{ username: string; password: string }>(event)

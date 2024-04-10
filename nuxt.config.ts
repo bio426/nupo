@@ -2,12 +2,7 @@
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	css: ["~/assets/css/main.css"],
-	postcss: {
-		plugins: {
-			tailwindcss: {},
-			autoprefixer: {},
-		},
-	},
+	postcss: { plugins: { tailwindcss: {}, autoprefixer: {} } },
 	app: {
 		head: {
 			link: [
@@ -16,12 +11,16 @@ export default defineNuxtConfig({
 			title: "Nupo",
 		},
 	},
-	runtimeConfig: {},
-	nitro: {
-		runtimeConfig: {
-			PG_HOST: "localhost",
-			AUTH_COOKIE_NAME: "nupo-token",
-			AUTH_JWT_SECRET: "my-secret",
-		},
+	runtimeConfig: {
+		//  App
+		authJwtSecret: "",
+		authCookieName: "",
+		//  Postgres
+		pgHost: "",
+		pgPort: "",
+		pgUser: "",
+		pgPassword: "",
+		pgDatabase: "",
 	},
+	modules: ["@pinia/nuxt"],
 })

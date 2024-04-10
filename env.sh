@@ -6,12 +6,16 @@ declare -A envs
 envs["TERN_CONFIG"]="tern.conf"
 envs["TERN_MIGRATIONS"]="migrations/"
 
+# App
+envs["NUXT_AUTH_JWT_SECRET"]="my-secret"
+envs["NUXT_AUTH_COOKIE_NAME"]="nupo-token"
+
 # Postgres
-envs["PG_HOST"]="localhost"
-envs["PG_PORT"]="5432"
-envs["PG_USER"]="postgres"
-envs["PG_PASSWORD"]="password"
-envs["PG_DATABASE"]="nupo"
+envs["NUXT_PG_HOST"]="localhost"
+envs["NUXT_PG_PORT"]="5432"
+envs["NUXT_PG_USER"]="postgres"
+envs["NUXT_PG_PASSWORD"]="password"
+envs["NUXT_PG_DATABASE"]="nupo"
 
 for env in "${!envs[@]}"; do
   export ${env}=${envs[${env}]}
