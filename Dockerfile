@@ -18,16 +18,16 @@ RUN go build -o ./bin/main ./main.go
 # RUN
 FROM node:lts-alpine
 
-ENV PROD="true"
+ENV NITRO_PORT="8080"
 ENV NUXT_PG_HOST="localhost"
 ENV NUXT_PG_PORT="5432"
 ENV NUXT_PG_USER="postgres"
 ENV NUXT_PG_PASSWORD="password"
-ENV NUXT_PG_DATABASE="gendor"
+ENV NUXT_PG_DATABASE="nupo"
 
 WORKDIR /app
 COPY --from=builder /app/.output .
 
 EXPOSE 8080
 
-CMD ["node .output/server/index.mjs"]
+CMD ["node","server/index.mjs"]

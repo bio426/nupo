@@ -4,6 +4,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
 	if (authStore.user == undefined) {
 		toast.display({ message: "unauthorized", variant: "error" })
-		return navigateTo("/")
+		return navigateTo("/login")
 	}
 })
